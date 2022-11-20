@@ -24,11 +24,9 @@ export default function ContentPage({ content }: { content: any }) {
 }
 
 // This gets called on every request
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 
-  const router = useRouter()
-
-  const { userId, contentId } = router.query
+  const { userId, contentId } = context.params!
  
   // Fetch data from external API
   const res = await fetch(`https://api-development.authory.com/article/${userId}/${contentId}`)

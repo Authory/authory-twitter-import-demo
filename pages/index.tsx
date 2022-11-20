@@ -12,7 +12,7 @@ export default function Home() {
 
   const submit = async () => {
     // TODO: Error handling & param validation
-    const resp = await fetch("https://api-development.authory.com/twitter-import/signup", {
+    const resp = await fetch("https://api-development.authory.com/gtwitter-import/signup", {
       method: "post",
       headers: {
         'Accept': 'application/json, text/plain, */*',

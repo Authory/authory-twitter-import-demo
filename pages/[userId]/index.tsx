@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../../styles/Home.module.css'
 import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
 
 
 export default function FeedPage({ content }: { content: any[] }) {
@@ -24,15 +25,18 @@ export default function FeedPage({ content }: { content: any[] }) {
 }
 
 // This gets called on every request
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 
-  const router = useRouter()
-
-  const { userId } = router.query
+  const { userId } = context.params!
  
   // Fetch data from external API
   const res = await fetch(`https://api-development.authory.com/twitter-import/profile/${userId}`)
   const data = await res.json()
+
+
+  console.log(res.status)
+
+  console.log(data)
 
   // Pass data to the page via props
   return { props: { content: data.articles } }
