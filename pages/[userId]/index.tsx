@@ -18,7 +18,7 @@ export default function FeedPage({ content }: { content: any[] }) {
       <h1 className={styles.title}>
         Your profile!
       </h1>
-      { content.map(x => (<p><a href={x.canonicalSlug}>{x.title}</a></p>)) }
+      { content.map(x => (<p><a href={x.canonicalSlug}>{x.description}</a></p>)) }
     </main>
     </div>
   )
