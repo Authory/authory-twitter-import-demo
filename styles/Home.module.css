@@ -33,13 +33,7 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+  text-align: center;
 }
 
 .title a {
@@ -60,12 +54,15 @@
 }
 
 .title,
+.paragraph,
 .description {
-  text-align: center;
+  text-align: left;
+  width: 100%;
+  max-width: 600px;
 }
 
 .description {
-  margin: 4rem 0;
+  margin: 2rem 0;
   line-height: 1.5;
   font-size: 1.5rem;
 }
