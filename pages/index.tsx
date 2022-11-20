@@ -66,7 +66,7 @@ export default function Home() {
           </form>
         </div>
 
-        { isSubmitted && <p className={styles.description}><b>Thank you, you will receive an email shortly.</b></p>}
+        { isSubmitted && <p className={styles.description}><b>Thank you, you will receive an email in roughly 30 minutes with a link to your backup.</b></p>}
         
         <p className={styles.description}>
           This will fully backup your twitter, 
