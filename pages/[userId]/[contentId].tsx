@@ -15,10 +15,16 @@ export default function ContentPage({ content }: { content: any }) {
     </Head>
 
     <main className={styles.main}>
+      <p className={styles.paragraph}>
+        Create your own <a href="/">backup here.</a>
+      </p>
       <h1 className={styles.title}>
         Your Content!
       </h1>
-      { content.text }
+        { content.description }
+      <p>
+        { JSON.stringify(content.contentDetail, undefined, 2) }
+      </p>
     </main>
     </div>
   )
@@ -37,5 +43,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   console.log(data)
   
   // Pass data to the page via props
-  return { props: { content: data } }
+  return { props: { content: data.article } }
 }

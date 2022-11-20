@@ -25,7 +25,7 @@ export default function Home() {
       body: JSON.stringify(twitterData)
     })
 
-    if(resp.status === 200) {
+    if (resp.status === 200) {
       setIsSubmitted(true)
     } else {
       console.error(resp.status, resp.statusText, await resp.text())
@@ -37,9 +37,9 @@ export default function Home() {
 
     let url = ''
 
-    if(handle.startsWith("@")) {
+    if (handle.startsWith("@")) {
       url = `https://twitter.com/${handle.substring(1)}`
-    } else if(!url.startsWith("https://") || !url.startsWith("http://")) {
+    } else if (!url.startsWith("https://") || !url.startsWith("http://")) {
       url = `https://twitter.com/${handle}`
     } else {
       url = handle
@@ -59,7 +59,7 @@ export default function Home() {
       })
     })
 
-    if(resp.status === 200) {
+    if (resp.status === 200) {
       setIsSubmitted(true)
     } else {
       console.error(resp.status, resp.statusText, await resp.text())
@@ -72,14 +72,14 @@ export default function Home() {
 
     let res;
 
-    const resp = await fetch("https://api-development.authory.com/twitter-auth-link", {
+    const resp = await fetch("https://api-development.authory.com/twitter-import/twitter-auth-link", {
       method: "get",
       headers: {
         'Accept': 'application/json, text/plain, */*',
       }
     })
 
-    if(resp.status === 200) {
+    if (resp.status === 200) {
       res = await resp.json()
     } else {
       console.error(resp.status, resp.statusText, await resp.text())
@@ -91,33 +91,33 @@ export default function Home() {
     const requestTokenSecret = res.twitterRequestTokenSecret;
 
     const pollTimer = window.setInterval(async () => {
-        try {
-            const url = popup.document.URL; // Fails if cross-domain, so will only proceed if it's been redirected to /signup/twitter-callback
+      try {
+        const url = popup.document.URL; // Fails if cross-domain, so will only proceed if it's been redirected to /signup/twitter-callback
 
-            if (url.indexOf("/signup/twitter-callback") !== -1) {
-                window.clearInterval(pollTimer);
-                const { oauth_token, oauth_verifier } = qs.parse(url.split("?")[1]);
+        if (url.indexOf("/signup/twitter-callback") !== -1) {
+          window.clearInterval(pollTimer);
+          const { oauth_token, oauth_verifier } = qs.parse(url.split("?")[1]);
 
-                if (typeof oauth_token === "string" && typeof oauth_verifier === "string") {
-                    setShowSpinner(true);
-                    popup.close();
+          if (typeof oauth_token === "string" && typeof oauth_verifier === "string") {
+            setShowSpinner(true);
+            popup.close();
 
-                    try {
-                        await signUpHandler({
-                            twitterRequestToken: oauth_token,
-                            twitterRequestVerifier: oauth_verifier,
-                            twitterRequestTokenSecret: requestTokenSecret,
-                        });
-                    } catch {
-                        setShowSpinner(false);
-                    }
-
-                    setShowSpinner(false);
-                }
+            try {
+              await signUpHandler({
+                twitterRequestToken: oauth_token,
+                twitterRequestVerifier: oauth_verifier,
+                twitterRequestTokenSecret: requestTokenSecret,
+              });
+            } catch {
+              setShowSpinner(false);
             }
-        } catch (error) {
-            // This one we cant log or stop, we need to wait for the user to be redirected.
+
+            setShowSpinner(false);
+          }
         }
+      } catch (error) {
+        // This one we cant log or stop, we need to wait for the user to be redirected.
+      }
     }, POLL_INTERVAL);
   }
 
@@ -144,8 +144,8 @@ export default function Home() {
           </form>
         </div>
 
-        { isSubmitted && <p className={styles.description}><b>Thank you, you will receive an email in roughly 30 minutes with a link to your backup.</b></p>}
-        
+        {isSubmitted && <p className={styles.description}><b>Thank you, you will receive an email in roughly 30 minutes with a link to your backup.</b></p>}
+
         <p className={styles.description}>
 
         </p>
@@ -156,12 +156,14 @@ export default function Home() {
         <p className={styles.paragraph}>
           Including media, into a searchable archive that <a href="#">looks like this</a>. The archive will be hosted by us and you can share it as you see fit.<br /><br />
           Additionally, you can download a copy of your data at any time.
+          <br /><br />
+          Currently, we do not backup answers or quotes, as they would be someless meaningless without the context.
         </p>
         <p className={styles.description}>
           Why?
         </p>
         <p className={styles.paragraph}>
-        We built this for the same reason we built <a href="https://authory.com">Authory</a> - we belive in free speach and fully owning your own data. You can read more on our <a href="https://authory.com/ownership">commitment to ownership here</a>.
+          We built this for the same reason we built <a href="https://authory.com">Authory</a> - we belive in free speach and fully owning your own data. You can read more on our <a href="https://authory.com/ownership">commitment to ownership here</a>.
         </p>
         <p className={styles.description}>
           Is this free?
@@ -180,7 +182,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-          Built with love by&nbsp;<a href="https//authory.com" target="_blank">Authory</a>&nbsp;-&nbsp;<a href="https://authory.com/imprint" target="_blank">Imprint</a>
+        Built with love by&nbsp;<a href="https//authory.com" target="_blank">Authory</a>&nbsp;-&nbsp;<a href="https://authory.com/imprint" target="_blank">Imprint</a>
       </footer>
     </div>
   )

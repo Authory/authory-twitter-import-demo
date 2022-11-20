@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { GetServerSidePropsContext } from 'next'
 
 
-export default function FeedPage({ content }: { content: any[] }) {
+export default function FeedPage({ content, userId }: { content: any[], userId: string }) {
 
   return (
     <div className={styles.container}>
@@ -15,10 +15,13 @@ export default function FeedPage({ content }: { content: any[] }) {
     </Head>
 
     <main className={styles.main}>
+      <p className={styles.paragraph}>
+        Create your own <a href="/">backup here.</a>
+      </p>
       <h1 className={styles.title}>
         Your profile!
       </h1>
-      { content.map(x => (<p><a href={x.canonicalSlug}>{x.description}</a></p>)) }
+      { content.map(x => (<p><a href={`${userId}/${x.canonicalSlug}`}>{x.description}</a></p>)) }
     </main>
     </div>
   )
@@ -38,5 +41,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   console.log(data)
 
   // Pass data to the page via props
-  return { props: { content: data.articles } }
+  return { props: { content: data.articles, userId } }
 }
