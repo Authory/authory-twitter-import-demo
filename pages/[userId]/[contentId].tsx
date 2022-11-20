@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../../styles/Home.module.css'
 import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
 
 
 export default function ContentPage({ content }: { content: any }) {
@@ -32,6 +33,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const res = await fetch(`https://api-development.authory.com/article/${userId}/${contentId}`)
   const data = await res.json()
 
+  console.log(res.status)
+  console.log(data)
+  
   // Pass data to the page via props
   return { props: { content: data } }
 }

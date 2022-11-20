@@ -11,6 +11,17 @@ export default function Home() {
   const [isSubmitted, setIsSubmitted] = useState(false)
 
   const submit = async () => {
+
+    let url = ''
+
+    if(handle.startsWith("@")) {
+      url = `https://twitter.com/${handle.substring(1)}`
+    } else if(!url.startsWith("https://") || !url.startsWith("http://")) {
+      url = `https://twitter.com/${handle}`
+    } else {
+      url = handle
+    }
+
     // TODO: Error handling & param validation
     const resp = await fetch("https://api-development.authory.com/gtwitter-import/signup", {
       method: "post",
@@ -20,7 +31,7 @@ export default function Home() {
       },
       body: JSON.stringify({
         email: email,
-        twitterUrl: handle
+        twitterUrl: url
         // TODO: Add recaptcha v3?
       })
     })
